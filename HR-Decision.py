@@ -92,19 +92,35 @@ print("-------------- print models scores --------------")
 df_score = pd.DataFrame(scores, columns=['model', 'best_score', 'best_params'])
 print(df_score)
 
-# # split the data set into train and test
-# x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.25)
-#
-# model = RandomForestClassifier(n_estimators=100)
-# model.fit(x_train, y_train)
-# print(model.score(x_test, y_test))
-#
-# y_predicted = model.predict(x_test)
-# cm = confusion_matrix(y_test, y_predicted)
-# plt.figure(figsize=(10, 7))
-# sb.heatmap(cm, annot=True, fmt=".1f")
-# plt.xlabel('Predicted')
-# plt.ylabel('Truth')
-#
-# # using Random Forest to create Confusion Matrix and Classification Report
-# print(classification_report(y_test, y_predicted))
+# -----------------------------------------------------------------------------------------------------------------
+
+# run the best model - Random Forest
+print()
+print("-------------- run all models - finish --------------")
+
+# split the data set into train and test
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.25)
+
+# set the model
+model = RandomForestClassifier(n_estimators=100)
+model.fit(x_train, y_train)
+
+# print model score
+model_score = model.score(x_test, y_test)
+print()
+print("model score " + str(model_score))
+
+# get the model's predictions on the test set
+y_predicted = model.predict(x_test)
+
+# create confusion matrix
+cm = confusion_matrix(y_test, y_predicted)
+plt.figure(figsize=(10, 7))
+sb.heatmap(cm, annot=True, fmt=".1f")
+plt.xlabel('Predicted')
+plt.ylabel('Truth')
+
+# using Random Forest to create Confusion Matrix and Classification Report
+print()
+print("-------------- print confusion matrix --------------")
+print(classification_report(y_test, y_predicted))
