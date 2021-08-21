@@ -1,5 +1,3 @@
-print("-------------- start --------------")
-
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder
 from sklearn.preprocessing import MinMaxScaler
@@ -15,6 +13,9 @@ import seaborn as sb
 from sklearn.metrics import classification_report
 import os
 
+print()
+print("-------------- read the data --------------")
+
 for dirname, _, filenames in os.walk('./input'):
     for filename in filenames:
         print(os.path.join(dirname, filename))
@@ -28,6 +29,7 @@ features = df[
 
 # convert the string data into numerical data so that can be used as a features
 le_salary = LabelEncoder()
+pd.set_option('mode.chained_assignment', None)
 features['salary_label'] = le_salary.fit_transform(features['salary'])
 
 features = features.drop(['salary', 'Department'], axis='columns')
@@ -72,6 +74,9 @@ model_params = {
 
 }
 
+print()
+print("-------------- run all models - start --------------")
+
 for model_name, mp in model_params.items():
     clf = GridSearchCV(mp['model'], mp['params'], cv=5, return_train_score=False)
     clf.fit(x, y)
@@ -80,6 +85,9 @@ for model_name, mp in model_params.items():
         'best_score': clf.best_score_,
         'best_params': clf.best_params_
     })
+print("-------------- run all models - finish --------------")
+print()
+print("-------------- print models scores --------------")
 
 df_score = pd.DataFrame(scores, columns=['model', 'best_score', 'best_params'])
 print(df_score)
@@ -100,5 +108,3 @@ print(df_score)
 #
 # # using Random Forest to create Confusion Matrix and Classification Report
 # print(classification_report(y_test, y_predicted))
-
-print("-------------- end --------------")
