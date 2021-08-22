@@ -71,7 +71,6 @@ model_params = {
             'n_neighbors': [3, 7, 11, 13]
         }
     }
-
 }
 
 print()
